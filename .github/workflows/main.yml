@@ -1,0 +1,97 @@
+
+name: Auto Commit
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'
+  push:
+    branches:
+      - main
+
+permissions:                
+    contents: write
+  
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: DEBUG 
+        run: echo "::debug::Ref = ${{github.ref}}"
+      - uses: actions/checkout@v3      
+        with:
+         persist-credentials: false
+         fetch-depth: 0
+
+      - name: Modify last update
+        run: |
+          d=`date '+%Y-%m-%dT%H:%M:%SZ'`
+          echo $d > LAST_UPDATED
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email 'zeshancodes@gmail.com'
+          git config --local user.name 'kristinatech'
+          git add -A
+          
+          arr[0]="feat: 💤 Just woke up to commit"
+          arr[1]="feat: 🥱 Yawning while committing"
+          arr[2]="feat: 😴 Dreaming of commits"
+          arr[3]="feat: 🛋️ Committed from the couch"
+          arr[4]="feat: 🌙 Committing in my sleep"
+          arr[5]="feat: 📺 Netflix and commit"
+          arr[6]="feat: 🍔 Too busy eating to commit"
+          arr[7]="feat: 🛏️ Committing from my cozy bed"
+          arr[8]="feat: 🥱 Too tired to write a proper commit message"
+          arr[9]="feat: 🚫 Procrastinating... but committed"
+          arr[10]="feat: 💤 Committed with my eyes closed"
+          arr[11]="feat: 🌴 Beachside commits"
+          arr[12]="feat: 🛌 Committing from under the covers"
+          arr[13]="feat: 🍹 Lazy day, lazy commits"
+          arr[14]="feat: 📚 Skipping commits for a good book"
+          arr[15]="feat: 🚫 Avoiding work... but committing"
+          arr[16]="feat: ⏰ Late-night commits"
+          arr[17]="feat: 🍕 Pizza break... and a quick commit"
+          arr[18]="feat: 🥱 Committing in my PJs"
+          arr[19]="feat: 🎮 Gaming pause for a commit"
+          arr[20]="feat: 🚶‍♂️🚶‍♀️ Committing at a snail's pace"
+          arr[21]="feat: 📺 Binge-watching while committing"
+          arr[22]="feat: 🌅 Sunset commits"
+          arr[23]="feat: 🛋️ Too comfortable to commit quickly"
+          arr[24]="feat: 😴 Sleepy commits"
+          arr[25]="feat: 🛌 Midday nap and commit"
+          arr[26]="feat: 🍩 Pausing for a sweet commit"
+          arr[27]="feat: 🚶‍♂️🚶‍♀️ Slowly committing step by step"
+          arr[28]="feat: 🛋️ Couch potato commits"
+          arr[29]="feat: 🌸 Procrastinating with flower commits"
+          arr[30]="feat: 🥱 Committing with half-closed eyes"
+          arr[31]="feat: 🎵 Committing to the rhythm of a lazy tune"
+          arr[32]="feat: 🍔 Food coma commits"
+          arr[33]="feat: 📺 TV show paused for a commit"
+          arr[34]="feat: 🚶‍♂️🚶‍♀️ Slow and steady commits"
+          arr[35]="feat: 💤 Dreaming of committed code"
+          arr[36]="feat: 🍕 Pizza-fueled commits"
+          arr[37]="feat: 🥱 Committing while fighting sleep"
+          arr[38]="feat: 🛌 Committing under a warm blanket"
+          arr[39]="feat: 🌅 Lazy sunrise commits"
+          arr[40]="feat: 🎮 Gaming break for a quick commit"
+          arr[41]="feat: 📺 Binge-watching and committing simultaneously"
+          arr[42]="feat: 🌸 Committing at a leisurely pace"
+          arr[43]="feat: 🥱 Committing in the twilight of drowsiness"
+          arr[44]="feat: 🛋️ Lounging and committing"
+          arr[45]="feat: 😴 Dream commits in progress"
+          arr[46]="feat: 🚶‍♂️🚶‍♀️ Committing with a slow stroll"
+          arr[47]="feat: 🌙 Night owl commits"
+          arr[48]="feat: 📚 Escaping into commits instead of reading"
+          arr[49]="feat: 🥱 Committing with heavy eyelids"
+          arr[50]="feat: 🍦 Ice cream break... and a quick commit"
+          
+          rand=$[$RANDOM % ${#arr[@]}]
+          
+          git commit -m "${arr[$rand]}"
+          
+      - name: GIthub Push
+        uses: ad-m/github-push-action@master
+        with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+            CI: true
